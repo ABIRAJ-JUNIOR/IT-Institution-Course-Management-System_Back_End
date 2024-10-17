@@ -14,5 +14,12 @@ namespace IT_Institution_Course_Management_System.Controller
         {
             _notificationsRepository = notificationsRepository;
         }
+        [HttpGet("Get-All-Notifications")]
+
+        public IActionResult GetAllCourseNotifications()
+        {
+            var notificationList = _notificationsRepository.GetAllNotifications();
+            return Ok(notificationList);
+        }
     }
 }
