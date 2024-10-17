@@ -5,5 +5,6 @@ namespace IT_Institution_Course_Management_System.IRepository
     public interface IStudentRepository
     {
         ICollection<StudentResponseDTO> GetAllStudents();
+        StudentResponseDTO GetStudentByNic(string Nic);
     }
 }
