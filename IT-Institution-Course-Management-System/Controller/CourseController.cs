@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,12 @@ namespace IT_Institution_Course_Management_System.Controller
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [HttpPost("Add-Course")]
+        public IActionResult AddCourse(CourseResponseDTO courseDto)
+        {
+            var studentData = _courseRepository.AddCourse(courseDto);
+            return Ok(studentData);
         }
     }
 }

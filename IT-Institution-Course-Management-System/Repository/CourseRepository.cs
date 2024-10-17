@@ -79,5 +79,30 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
+        public CourseResponseDTO AddCourse(CourseResponseDTO courseDto)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO Courses (Id,CourseName,Level,TotalFee) VALUES (@id,@courseName,@level,@totalFee);";
+                    command.Parameters.AddWithValue("@id", courseDto.Id);
+                    command.Parameters.AddWithValue("@courseName", courseDto.CourseName);
+                    command.Parameters.AddWithValue("@level", courseDto.Level);
+                    command.Parameters.AddWithValue("@totalFee", courseDto.TotalFee);
+                    command.ExecuteNonQuery();
+                }
+
+                return courseDto;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
+        }
+
     }
 }

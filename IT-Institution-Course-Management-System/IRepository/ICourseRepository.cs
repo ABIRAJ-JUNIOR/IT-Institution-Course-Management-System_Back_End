@@ -6,6 +6,7 @@ namespace IT_Institution_Course_Management_System.IRepository
     {
         ICollection<CourseResponseDTO> GetAllCourses();
         CourseResponseDTO GetCourseById(string CourseId);
+        CourseResponseDTO AddCourse(CourseResponseDTO courseDto);
 
     }
 }
