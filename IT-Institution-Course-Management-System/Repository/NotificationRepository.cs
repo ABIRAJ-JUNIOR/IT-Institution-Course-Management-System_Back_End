@@ -69,6 +69,29 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
+        public void DeleteNotification(int id)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(_ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"UPDATE Notifications SET IsDeleted = @isDeleted WHERE Id == @id";
+                    command.Parameters.AddWithValue("@isDeleted", true);
+                    command.Parameters.AddWithValue("@id", id);
+                    var RowEffected = command.ExecuteNonQuery();
+                    if (RowEffected <= 0)
+                    {
+                        throw new Exception("Notification Not Found..");
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
+        }
 
     }
 }

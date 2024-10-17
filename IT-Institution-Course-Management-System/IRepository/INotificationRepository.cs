@@ -7,5 +7,7 @@ namespace IT_Institution_Course_Management_System.IRepository
     {
         ICollection<NotificationResponseDTO> GetAllNotifications();
         void AddNotification(NotificationRequestDTO notification);
+        void DeleteNotification(int id);
     }
+}
 }
