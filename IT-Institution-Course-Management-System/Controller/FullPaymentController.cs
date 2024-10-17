@@ -14,5 +14,14 @@ namespace IT_Institution_Course_Management_System.Controller
         {
             _fullPaymentRepository = fullPaymentRepository;
         }
+
+
+        [HttpGet("Get-All-FullPayments")]
+
+        public IActionResult GetAllFullPayments()
+        {
+            var fullPaymentsList = _fullPaymentRepository.GetAllFullPayments();
+            return Ok(fullPaymentsList);
+        }
     }
 }
