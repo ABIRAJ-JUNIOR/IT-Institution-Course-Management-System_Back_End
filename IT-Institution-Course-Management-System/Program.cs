@@ -22,7 +22,7 @@ namespace IT_Institution_Course_Management_System
 
             builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
             builder.Services.AddSingleton<IFullPaymentRepository>(provider => new FullPaymentRepository(connectionString));
-            builder.Services.AddSingleton<IInstallmentRepository>(provider => new InstallmentRepository(connectionString));
+            builder.Services.AddSingleton<IInstallmentRepository>(provider => new InstallementRepository(connectionString));
 
 
             //Initialize The Database
