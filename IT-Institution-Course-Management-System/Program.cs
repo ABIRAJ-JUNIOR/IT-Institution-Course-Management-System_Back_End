@@ -21,6 +21,11 @@ namespace IT_Institution_Course_Management_System
 
             builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
 
+
+            //Initialize The Database
+            var Initialize = new DatabaseInitializer(connectionString);
+            Initialize.Initialize();
+            
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
