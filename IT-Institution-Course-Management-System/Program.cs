@@ -22,7 +22,6 @@ namespace IT_Institution_Course_Management_System
 
 
 
-
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
