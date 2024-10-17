@@ -44,5 +44,30 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
+
+        public FullPaymentResponseDTO AddFullPayment(FullPaymentResponseDTO fullPaymentDto)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO FullPayments (Id,Nic,FullPayment,PaymentDate) VALUES (@id,@nic,@fulpayment,@paymentDate);";
+                    command.Parameters.AddWithValue("@id", fullPaymentDto.Id);
+                    command.Parameters.AddWithValue("@nic", fullPaymentDto.Nic);
+                    command.Parameters.AddWithValue("@fulpayment", fullPaymentDto.FullPayment);
+                    command.Parameters.AddWithValue("@paymentDate", fullPaymentDto.PaymentDate);
+                    command.ExecuteNonQuery();
+                }
+
+                return fullPaymentDto;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
+        }
     }
 }
