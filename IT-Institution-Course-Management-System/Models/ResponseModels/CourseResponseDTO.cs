@@ -2,5 +2,9 @@
 {
     public class CourseResponseDTO
     {
+        public string Id { get; set; }
+        public string CourseName { get; set; }
+        public string Level { get; set; }
+        public int TotalFee { get; set; }
     }
 }
