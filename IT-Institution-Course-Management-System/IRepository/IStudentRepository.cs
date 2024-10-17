@@ -11,5 +11,6 @@ namespace IT_Institution_Course_Management_System.IRepository
         Student AddStudent(Student student);
         StudentUpdateRequestDTO UpdateStudent(string Nic, StudentUpdateRequestDTO studentUpdate);
         void AddCourseEnrollId(string Nic, string CourseEnrollId);
+        void PasswordUpdate(string Nic, PasswordUpdateRequestDTO newPassword);
     }
 }

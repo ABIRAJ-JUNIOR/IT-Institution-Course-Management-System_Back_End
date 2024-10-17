@@ -123,5 +123,21 @@ namespace IT_Institution_Course_Management_System.Controller
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("Password-Change/{Nic}")]
+
+        public IActionResult PasswordUpdate(string Nic, PasswordUpdateRequestDTO newPassword)
+        {
+            try
+            {
+                _studentRepository.PasswordUpdate(Nic, newPassword);
+                return Ok("Password Changed Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
