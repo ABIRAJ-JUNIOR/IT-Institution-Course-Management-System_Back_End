@@ -189,6 +189,31 @@ namespace IT_Institution_Course_Management_System.Repository
 
         }
 
+        public void UpdateProfilePic(string Nic, string ImagePath)
+        {
+            var student = GetStudentByNic(Nic);
+            if (student != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Students SET ImagePath = @imagepath  WHERE Nic = @nic";
+                    command.Parameters.AddWithValue("@imagepath", ImagePath == null ? "" : ImagePath);
+                    command.Parameters.AddWithValue("@nic", Nic);
+                    var RowEffected = command.ExecuteNonQuery();
+                    if (RowEffected <= 0)
+                    {
+                        throw new Exception("Student Not Found..");
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Student Not Found!");
+            }
+        }
+
 
     }
 }

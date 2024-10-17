@@ -155,5 +155,55 @@ namespace IT_Institution_Course_Management_System.Controller
             }
 
         }
+
+        [HttpPut("Update-Profile-Picture")]
+
+        public async Task<IActionResult> UpdateProfilePic(ProfilePictureRequestDTO profileRequest)
+        {
+            try
+            {
+                var ImagePath = "";
+
+                if (profileRequest.ImageFile != null && profileRequest.ImageFile.Length > 0)
+                {
+
+                    if (string.IsNullOrEmpty(_webHostEnvironment.WebRootPath))
+                    {
+                        throw new ArgumentNullException(nameof(_webHostEnvironment.WebRootPath), "WebRootPath is not set. Make sure the environment is configured properly.");
+                    }
+
+                    var profileimagesPath = Path.Combine(_webHostEnvironment.WebRootPath, "profileimages");
+
+
+                    if (!Directory.Exists(profileimagesPath))
+                    {
+                        Directory.CreateDirectory(profileimagesPath);
+                    }
+
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(profileRequest.ImageFile.FileName);
+                    var imagePath = Path.Combine(profileimagesPath, fileName);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await profileRequest.ImageFile.CopyToAsync(stream);
+                    }
+
+
+                    ImagePath = "/profileimages/" + fileName;
+                }
+                else
+                {
+                    ImagePath = null;
+                }
+
+
+                _studentRepository.UpdateProfilePic(profileRequest.Nic, ImagePath);
+                return Ok("Profile Pic Updated..");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

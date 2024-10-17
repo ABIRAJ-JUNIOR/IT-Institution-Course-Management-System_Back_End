@@ -13,5 +13,6 @@ namespace IT_Institution_Course_Management_System.IRepository
         void AddCourseEnrollId(string Nic, string CourseEnrollId);
         void PasswordUpdate(string Nic, PasswordUpdateRequestDTO newPassword);
         void DeleteStudent(string Nic);
+        void UpdateProfilePic(string Nic, string ImagePath);
     }
 }
