@@ -16,11 +16,6 @@ namespace IT_Institution_Course_Management_System.Repository
                 _connectionString = connectionString;
             }
 
-            public InstallmentDetail AddInstallment(InstallmentDetail installmentDetail)
-            {
-                throw new NotImplementedException();
-            }
-
             public ICollection<InstallmentResponseDTO> GetAllInstallments()
             {
                 var InstallmentsList = new List<InstallmentResponseDTO>();
