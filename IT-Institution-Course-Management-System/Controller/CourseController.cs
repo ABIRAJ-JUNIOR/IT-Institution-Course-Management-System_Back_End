@@ -60,5 +60,20 @@ namespace IT_Institution_Course_Management_System.Controller
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("Delete-Course/{CourseId}")]
+
+        public IActionResult DeleteCourse(string CourseId)
+        {
+            try
+            {
+                _courseRepository.DeleteCourse(CourseId);
+                return Ok("Course Deleted Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

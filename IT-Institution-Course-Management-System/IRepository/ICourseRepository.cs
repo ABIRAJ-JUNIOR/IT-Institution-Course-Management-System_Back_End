@@ -8,6 +8,7 @@ namespace IT_Institution_Course_Management_System.IRepository
         CourseResponseDTO GetCourseById(string CourseId);
         CourseResponseDTO AddCourse(CourseResponseDTO courseDto);
         void UpdateCourse(string CourseID, int TotalFee);
+        void DeleteCourse(string CourseId);
 
     }
 }

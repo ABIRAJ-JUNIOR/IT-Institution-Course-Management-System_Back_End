@@ -128,6 +128,30 @@ namespace IT_Institution_Course_Management_System.Repository
             }
 
         }
+        public void DeleteCourse(string CourseId)
+        {
+            var course = GetCourseById(CourseId);
+            if (course != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM Courses WHERE Id = @id";
+                    command.Parameters.AddWithValue("@id", CourseId);
+                    var RowEffected = command.ExecuteNonQuery();
+                    if (RowEffected <= 0)
+                    {
+                        throw new Exception("Course NOT Found..");
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Course Not Fount");
+            }
+
+        }
 
     }
 }
