@@ -139,5 +139,21 @@ namespace IT_Institution_Course_Management_System.Controller
             }
         }
 
+
+        [HttpDelete("Delete-Student/{Nic}")]
+
+        public IActionResult DeleteStudent(string Nic)
+        {
+            try
+            {
+                _studentRepository.DeleteStudent(Nic);
+                return Ok("Deleted Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

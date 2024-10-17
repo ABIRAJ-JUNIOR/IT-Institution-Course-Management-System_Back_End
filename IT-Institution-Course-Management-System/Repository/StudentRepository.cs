@@ -168,6 +168,27 @@ namespace IT_Institution_Course_Management_System.Repository
 
         }
 
+        public void DeleteStudent(string Nic)
+        {
+            var student = GetStudentByNic(Nic);
+            if (student != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "DELETE FROM Students WHERE Nic = @nic";
+                    command.Parameters.AddWithValue("@nic", Nic);
+                    command.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                throw new Exception("Student Not Found!");
+            }
+
+        }
+
 
     }
 }
