@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.Data.Sqlite;
 
@@ -40,6 +41,28 @@ namespace IT_Institution_Course_Management_System.Repository
                     }
                 }
                 return notificationList;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
+        }
+        public void AddNotification(NotificationRequestDTO notification)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(_ConnectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"INSERT INTO Notifications(Nic,Type,SourceId,Date,IsDeleted) Values (@nic,@type,@sourceId,@date,@isDeleted)";
+                    command.Parameters.AddWithValue("@nic", notification.Nic);
+                    command.Parameters.AddWithValue("@type", notification.Type);
+                    command.Parameters.AddWithValue("@sourceId", notification.SourceId);
+                    command.Parameters.AddWithValue("@date", notification.Date);
+                    command.Parameters.AddWithValue("@isDeleted", false);
+                    command.ExecuteNonQuery();
+                }
             }
             catch (Exception error)
             {
