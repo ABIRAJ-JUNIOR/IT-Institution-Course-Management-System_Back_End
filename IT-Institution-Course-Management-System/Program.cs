@@ -1,3 +1,4 @@
+using IT_Institution_Course_Management_System.Database;
 using IT_Institution_Course_Management_System.IRepository;
 using IT_Institution_Course_Management_System.Repository;
 
@@ -19,8 +20,6 @@ namespace IT_Institution_Course_Management_System
             var connectionString = builder.Configuration.GetConnectionString("DBConnection");
 
             builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
-
-
 
             builder.Services.AddCors(options =>
             {
