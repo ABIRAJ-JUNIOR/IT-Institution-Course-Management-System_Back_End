@@ -22,5 +22,19 @@ namespace IT_Institution_Course_Management_System.Controller
             var CourseList = _courseRepository.GetAllCourses();
             return Ok(CourseList);
         }
+        [HttpGet("Get-Course-By-ID /{CourseId}")]
+
+        public IActionResult GetCourseById(string CourseId)
+        {
+            try
+            {
+                var Course = _courseRepository.GetCourseById(CourseId);
+                return Ok(Course);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

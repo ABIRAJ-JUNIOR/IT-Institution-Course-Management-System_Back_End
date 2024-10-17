@@ -5,5 +5,7 @@ namespace IT_Institution_Course_Management_System.IRepository
     public interface ICourseRepository
     {
         ICollection<CourseResponseDTO> GetAllCourses();
+        CourseResponseDTO GetCourseById(string CourseId);
+
     }
 }

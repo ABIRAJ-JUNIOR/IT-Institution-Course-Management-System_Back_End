@@ -44,5 +44,40 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
+        public CourseResponseDTO GetCourseById(string CourseId)
+        {
+            try
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT * FROM Courses WHERE Id == @id";
+                    command.Parameters.AddWithValue("@id", CourseId);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new CourseResponseDTO()
+                            {
+                                Id = reader.GetString(0),
+                                CourseName = reader.GetString(1),
+                                Level = reader.GetString(2),
+                                TotalFee = reader.GetInt32(3)
+                            };
+                        }
+                        else
+                        {
+                            throw new Exception("Course Not Found!");
+                        }
+                    };
+                };
+                return null;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
+        }
     }
 }
