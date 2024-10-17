@@ -24,7 +24,6 @@
     <Folder Include="IRepository\" />
     <Folder Include="Models\ResponseModels\" />
     <Folder Include="Models\RequestModels\" />
-    <Folder Include="Entities\" />
     <Folder Include="Repository\" />
   </ItemGroup>
 
