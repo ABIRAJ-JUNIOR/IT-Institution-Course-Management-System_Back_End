@@ -16,5 +16,13 @@ namespace IT_Institution_Course_Management_System.Controller
             _studentRepository = studentRepository;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        [HttpGet("Get-All-Students")]
+
+        public IActionResult GetAllStudents()
+        {
+            var StudentsList = _studentRepository.GetAllStudents();
+            return Ok(StudentsList);
+        }
     }
 }
