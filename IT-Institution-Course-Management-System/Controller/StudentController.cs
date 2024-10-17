@@ -1,4 +1,6 @@
-﻿using IT_Institution_Course_Management_System.IRepository;
+﻿using IT_Institution_Course_Management_System.Entities;
+using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +40,57 @@ namespace IT_Institution_Course_Management_System.Controller
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("Add-student")]
+        public async Task<IActionResult> AddStudent(AddStudentRequestDTO addStudent)
+        {
+            var StudentObj = new Student()
+            {
+                Nic = addStudent.Nic,
+                FullName = addStudent.FullName,
+                Email = addStudent.Email,
+                Phone = addStudent.Phone,
+                Password = addStudent.Password,
+                RegistrationFee = addStudent.RegistrationFee,
+                CourseEnrollId = null
+            };
+
+            if (addStudent.ImageFile != null && addStudent.ImageFile.Length > 0)
+            {
+
+                if (string.IsNullOrEmpty(_webHostEnvironment.WebRootPath))
+                {
+                    throw new ArgumentNullException(nameof(_webHostEnvironment.WebRootPath), "WebRootPath is not set. Make sure the environment is configured properly.");
+                }
+
+                var profileimagesPath = Path.Combine(_webHostEnvironment.WebRootPath, "profileimages");
+
+
+                if (!Directory.Exists(profileimagesPath))
+                {
+                    Directory.CreateDirectory(profileimagesPath);
+                }
+
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(addStudent.ImageFile.FileName);
+                var imagePath = Path.Combine(profileimagesPath, fileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await addStudent.ImageFile.CopyToAsync(stream);
+                }
+
+
+                StudentObj.ImagePath = "/profileimages/" + fileName;
+            }
+            else
+            {
+                StudentObj.ImagePath = null;
+            }
+
+
+            var studentData = _studentRepository.AddStudent(StudentObj);
+            return Ok(studentData);
         }
     }
 }

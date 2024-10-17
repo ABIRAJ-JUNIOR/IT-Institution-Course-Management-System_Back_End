@@ -1,4 +1,5 @@
-﻿using IT_Institution_Course_Management_System.IRepository;
+﻿using IT_Institution_Course_Management_System.Entities;
+using IT_Institution_Course_Management_System.IRepository;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.Data.Sqlite;
 
@@ -75,6 +76,27 @@ namespace IT_Institution_Course_Management_System.Repository
                 };
             };
             return null;
+        }
+
+        public Student AddStudent(Student student)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO Students (Nic , FullName , Email , Phone , Password , RegistrationFee , ImagePath ) VALUES (@nic,@name,@email,@phone,@password,@registerFee,@imagePath);";
+                command.Parameters.AddWithValue("@nic", student.Nic);
+                command.Parameters.AddWithValue("@name", student.FullName);
+                command.Parameters.AddWithValue("@email", student.Email);
+                command.Parameters.AddWithValue("@phone", student.Phone);
+                command.Parameters.AddWithValue("@password", student.Password);
+                command.Parameters.AddWithValue("@registerFee", student.RegistrationFee);
+                command.Parameters.AddWithValue("@imagePath", student.ImagePath == null ? "" : student.ImagePath);
+                command.ExecuteNonQuery();
+            }
+
+            return student;
         }
     }
 }

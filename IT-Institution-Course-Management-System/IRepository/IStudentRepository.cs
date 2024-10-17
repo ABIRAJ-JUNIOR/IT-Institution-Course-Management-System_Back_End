@@ -1,4 +1,6 @@
-﻿using IT_Institution_Course_Management_System.Models.ResponseModels;
+﻿using IT_Institution_Course_Management_System.Entities;
+using IT_Institution_Course_Management_System.Models.RequestModels;
+using IT_Institution_Course_Management_System.Models.ResponseModels;
 
 namespace IT_Institution_Course_Management_System.IRepository
 {
@@ -6,5 +8,6 @@ namespace IT_Institution_Course_Management_System.IRepository
     {
         ICollection<StudentResponseDTO> GetAllStudents();
         StudentResponseDTO GetStudentByNic(string Nic);
+        Student AddStudent(Student student);
     }
 }
