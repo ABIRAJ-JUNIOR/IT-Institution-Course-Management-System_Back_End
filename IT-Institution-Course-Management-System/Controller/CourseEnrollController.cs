@@ -39,5 +39,13 @@ namespace IT_Institution_Course_Management_System.Controller
             _courseEnrollRepository.AddPaymentId(CourseEnrollId, InstallmentId, FullPaymentId);
             return Ok("Payment ID Added Successfully.");
         }
+
+        [HttpPut("Update-Status/{CourseEnrollId}/{Status}")]
+
+        public IActionResult UpdateStatus(string CourseEnrollId, string Status)
+        {
+            _courseEnrollRepository.UpdateStatus(CourseEnrollId, Status); ;
+            return Ok("Status Update Successfully.");
+        }
     }
 }

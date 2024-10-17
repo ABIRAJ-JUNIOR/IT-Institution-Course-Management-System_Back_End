@@ -98,6 +98,18 @@ namespace IT_Institution_Course_Management_System.Repository
                 }
             }
         }
+        public void UpdateStatus(string CourseEnrollId, string Status)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "UPDATE CourseEnrollDetails SET Status = @status WHERE Id = @courseEnrollId";
+                command.Parameters.AddWithValue("@status", Status);
+                command.Parameters.AddWithValue("@courseEnrollId", CourseEnrollId);
+                command.ExecuteNonQuery();
+            }
+        }
 
 
     }
