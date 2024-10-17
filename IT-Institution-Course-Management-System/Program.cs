@@ -20,7 +20,7 @@ namespace IT_Institution_Course_Management_System
             var connectionString = builder.Configuration.GetConnectionString("DBConnection");
 
             builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
-
+            builder.Services.AddSingleton<ICourseEnrollRepository>(provider => new CourseEnrollRepository(connectionString));
 
             //Initialize The Database
             var Initialize = new DatabaseInitializer(connectionString);
