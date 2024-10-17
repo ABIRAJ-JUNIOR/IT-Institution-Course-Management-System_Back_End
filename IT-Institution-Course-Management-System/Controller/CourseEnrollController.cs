@@ -31,5 +31,13 @@ namespace IT_Institution_Course_Management_System.Controller
             var CourseEnrollDetail = _courseEnrollRepository.AddEnrollDetails(AddEnrollDto);
             return Ok(CourseEnrollDetail);
         }
+
+        [HttpPut("Add-payment-Id/{CourseEnrollId}/{InstallmentId}/{FullPaymentId}")]
+
+        public IActionResult AddPaymentId(string CourseEnrollId, string InstallmentId, string FullPaymentId)
+        {
+            _courseEnrollRepository.AddPaymentId(CourseEnrollId, InstallmentId, FullPaymentId);
+            return Ok("Payment ID Added Successfully.");
+        }
     }
 }

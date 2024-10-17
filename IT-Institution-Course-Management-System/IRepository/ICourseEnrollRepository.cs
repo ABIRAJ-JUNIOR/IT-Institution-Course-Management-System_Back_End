@@ -7,5 +7,6 @@ namespace IT_Institution_Course_Management_System.IRepository
     {
         ICollection<CourseEnrollResponseDTO> GetAllEnrollData();
         CourseEnrollResponseDTO AddEnrollDetails(AddCourseEnrollDTO AddEnrollDto);
+        void AddPaymentId(string CourseEnrollId, string InstallmentId, string FullPaymentId);
     }
 }

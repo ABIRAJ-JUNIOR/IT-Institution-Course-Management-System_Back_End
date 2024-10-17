@@ -71,6 +71,34 @@ namespace IT_Institution_Course_Management_System.Repository
 
             return CourseEnrollObj;
         }
+        public void AddPaymentId(string CourseEnrollId, string InstallmentId, string FullPaymentId)
+        {
+            if (InstallmentId != null && FullPaymentId == "null")
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE CourseEnrollDetails SET InstallmentId = @installmentId WHERE Id = @courseEnrollId";
+                    command.Parameters.AddWithValue("@installmentId", InstallmentId);
+                    command.Parameters.AddWithValue("@courseEnrollId", CourseEnrollId);
+                    command.ExecuteNonQuery();
+                }
+            }
+            else if (InstallmentId == "null" && FullPaymentId != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE CourseEnrollDetails SET FullPaymentId = @fullPaymentId WHERE Id = @courseEnrollId";
+                    command.Parameters.AddWithValue("@fullPaymentId", FullPaymentId);
+                    command.Parameters.AddWithValue("@courseEnrollId", CourseEnrollId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
     }
 }
