@@ -20,11 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controller\" />
-    <Folder Include="IRepository\" />
     <Folder Include="Models\ResponseModels\" />
     <Folder Include="Models\RequestModels\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>

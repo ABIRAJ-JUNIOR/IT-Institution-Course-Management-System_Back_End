@@ -1,3 +1,6 @@
+using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Repository;
+
 namespace IT_Institution_Course_Management_System
 {
     public class Program
@@ -15,6 +18,7 @@ namespace IT_Institution_Course_Management_System
             builder.Services.AddSwaggerGen();
             var connectionString = builder.Configuration.GetConnectionString("DBConnection");
 
+            builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
 
 
 
