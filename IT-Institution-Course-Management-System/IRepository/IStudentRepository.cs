@@ -9,5 +9,6 @@ namespace IT_Institution_Course_Management_System.IRepository
         ICollection<StudentResponseDTO> GetAllStudents();
         StudentResponseDTO GetStudentByNic(string Nic);
         Student AddStudent(Student student);
+        StudentUpdateRequestDTO UpdateStudent(string Nic, StudentUpdateRequestDTO studentUpdate);
     }
 }

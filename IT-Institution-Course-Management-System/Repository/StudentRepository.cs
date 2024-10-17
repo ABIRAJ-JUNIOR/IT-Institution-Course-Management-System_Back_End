@@ -1,5 +1,6 @@
 ﻿using IT_Institution_Course_Management_System.Entities;
 using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.Data.Sqlite;
 
@@ -98,5 +99,32 @@ namespace IT_Institution_Course_Management_System.Repository
 
             return student;
         }
+
+        public StudentUpdateRequestDTO UpdateStudent(string Nic, StudentUpdateRequestDTO studentUpdate)
+        {
+            var student = GetStudentByNic(Nic);
+            if (student != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Students SET FullName = @name , Email = @email , Phone = @phone  WHERE Nic = @nic";
+                    command.Parameters.AddWithValue("@name", studentUpdate.FullName);
+                    command.Parameters.AddWithValue("@email", studentUpdate.Email);
+                    command.Parameters.AddWithValue("@phone", studentUpdate.Phone);
+                    command.Parameters.AddWithValue("@nic", Nic);
+                    command.ExecuteNonQuery();
+                    return studentUpdate;
+                }
+            }
+            else
+            {
+                throw new Exception("Stusent Not Found!");
+            }
+
+        }
+
+
     }
 }

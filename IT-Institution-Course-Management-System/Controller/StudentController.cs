@@ -92,5 +92,21 @@ namespace IT_Institution_Course_Management_System.Controller
             var studentData = _studentRepository.AddStudent(StudentObj);
             return Ok(studentData);
         }
+
+        [HttpPut("Update-Student/{Nic}")]
+
+        public IActionResult UpdateStudent(string Nic, StudentUpdateRequestDTO studentUpdate)
+        {
+            try
+            {
+                _studentRepository.UpdateStudent(Nic, studentUpdate);
+                return Ok(studentUpdate);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
