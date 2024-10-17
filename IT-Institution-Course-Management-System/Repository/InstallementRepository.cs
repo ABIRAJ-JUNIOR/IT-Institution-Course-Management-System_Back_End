@@ -82,6 +82,52 @@ namespace IT_Institution_Course_Management_System.Repository
                 };
                 return null;
             }
+
+            public InstallmentDetail AddInstallment(InstallmentDetail installmentDetail)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO Installments (Id,Nic,TotalAmount,InstallmentAmount,Installments,PaymentDue,PaymentPaid,PaymentDate) VALUES (@Id,@nic,@totalAmount,@InstallmentAmount,@installments,@paymentDue,@paymentPaid,@paymentDate);";
+                    command.Parameters.AddWithValue("@Id", installmentDetail.Id);
+                    command.Parameters.AddWithValue("@nic", installmentDetail.Nic);
+                    command.Parameters.AddWithValue("@totalAmount", installmentDetail.TotalAmount);
+                    command.Parameters.AddWithValue("@InstallmentAmount", installmentDetail.InstallmentAmount);
+                    command.Parameters.AddWithValue("@installments", installmentDetail.Installments);
+                    command.Parameters.AddWithValue("@paymentDue", installmentDetail.PaymentDue);
+                    command.Parameters.AddWithValue("@paymentPaid", installmentDetail.PaymentPaid);
+                    command.Parameters.AddWithValue("@paymentDate", installmentDetail.PaymentDate);
+                    command.ExecuteNonQuery();
+                }
+
+                return installmentDetail;
+            }
+
+            public InstallmentResponseDTO UpdateInstallment(string InstallmentId, decimal PaidAmount)
+            {
+                var installmentDetail = GetInstallmentById(InstallmentId);
+                decimal PaymentPaid = installmentDetail.PaymentPaid + PaidAmount;
+                decimal PaymentDue = installmentDetail.PaymentDue - PaidAmount;
+
+                DateTime today = DateTime.Now;
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Installments SET PaymentDue = @paymentDue , PaymentPaid = @paymentPaid , PaymentDate = @paymentDate WHERE Id == @id";
+                    command.Parameters.AddWithValue("@paymentDue", PaymentDue);
+                    command.Parameters.AddWithValue("@paymentPaid", PaymentPaid);
+                    command.Parameters.AddWithValue("@paymentDate", today);
+                    command.Parameters.AddWithValue("@id", InstallmentId);
+                    command.ExecuteNonQuery();
+                }
+
+                var UpdatedInstallmentDetail = GetInstallmentById(InstallmentId);
+
+                return UpdatedInstallmentDetail;
+            }
         }
     }
 }

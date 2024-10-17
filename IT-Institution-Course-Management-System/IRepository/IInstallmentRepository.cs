@@ -7,6 +7,7 @@ namespace IT_Institution_Course_Management_System.IRepository
     {
         ICollection<InstallmentResponseDTO> GetAllInstallments();
         InstallmentDetail AddInstallment(InstallmentDetail installmentDetail);
+        InstallmentResponseDTO UpdateInstallment(string InstallmentId, decimal PaidAmount);
 
     }
 }

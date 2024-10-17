@@ -31,5 +31,20 @@ namespace IT_Institution_Course_Management_System.Controller
             var installment = _installmentRepository.AddInstallment(installmentDetail);
             return Ok(installment);
         }
+
+        [HttpPut("Update-Installment/{InstallmentId}/{PaidAmount}")]
+
+        public IActionResult UpdateInstallment(string InstallmentId, decimal PaidAmount)
+        {
+            try
+            {
+                var installmentDetail = _installmentRepository.UpdateInstallment(InstallmentId, PaidAmount);
+                return Ok(installmentDetail);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
