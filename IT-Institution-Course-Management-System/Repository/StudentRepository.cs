@@ -125,6 +125,27 @@ namespace IT_Institution_Course_Management_System.Repository
 
         }
 
+        public void AddCourseEnrollId(string Nic, string CourseEnrollId)
+        {
+            var student = GetStudentByNic(Nic);
+            if (student != null)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Students SET CourseEnrollId = @courseEnrollId  WHERE Nic = @nic";
+                    command.Parameters.AddWithValue("@courseEnrollId", CourseEnrollId);
+                    command.Parameters.AddWithValue("@nic", Nic);
+                    command.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                throw new Exception("Stusent Not Found!");
+            }
+        }
+
 
     }
 }

@@ -108,5 +108,20 @@ namespace IT_Institution_Course_Management_System.Controller
             }
 
         }
+
+        [HttpPut("Update-CourseEnroll-Id/{Nic}/{CourseEnrollId}")]
+
+        public IActionResult AddCourseEnrollId(string Nic, string CourseEnrollId)
+        {
+            try
+            {
+                _studentRepository.AddCourseEnrollId(Nic, CourseEnrollId);
+                return Ok("CourseEnroll Id Updated Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
