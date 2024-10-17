@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,14 @@ namespace IT_Institution_Course_Management_System.Controller
             var courseEnrollData = _courseEnrollRepository.GetAllEnrollData();
             return Ok(courseEnrollData);
 
+        }
+
+        [HttpPost("Add-Course-Enroll-Detail")]
+
+        public IActionResult AddEnrollDetails(AddCourseEnrollDTO AddEnrollDto)
+        {
+            var CourseEnrollDetail = _courseEnrollRepository.AddEnrollDetails(AddEnrollDto);
+            return Ok(CourseEnrollDetail);
         }
     }
 }
