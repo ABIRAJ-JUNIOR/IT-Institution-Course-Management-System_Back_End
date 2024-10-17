@@ -23,6 +23,7 @@ namespace IT_Institution_Course_Management_System.Controller
             var CourseList = _courseRepository.GetAllCourses();
             return Ok(CourseList);
         }
+
         [HttpGet("Get-Course-By-ID /{CourseId}")]
 
         public IActionResult GetCourseById(string CourseId)
@@ -37,11 +38,27 @@ namespace IT_Institution_Course_Management_System.Controller
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost("Add-Course")]
         public IActionResult AddCourse(CourseResponseDTO courseDto)
         {
             var studentData = _courseRepository.AddCourse(courseDto);
             return Ok(studentData);
+        }
+
+        [HttpPut("Update-Course/{CourseID}/{TotalFee}")]
+
+        public IActionResult UpdateCourse(string CourseID, int TotalFee)
+        {
+            try
+            {
+                _courseRepository.UpdateCourse(CourseID, TotalFee);
+                return Ok("Course Updated Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

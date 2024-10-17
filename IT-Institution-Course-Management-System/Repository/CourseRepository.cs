@@ -103,6 +103,31 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
+        public void UpdateCourse(string CourseID, int TotalFee)
+        {
+
+            if (TotalFee >= 0)
+            {
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Courses SET TotalFee = @totalFee  WHERE Id == @id";
+                    command.Parameters.AddWithValue("@id", CourseID);
+                    command.Parameters.AddWithValue("@totalFee", TotalFee);
+                    var RowEffected = command.ExecuteNonQuery();
+                    if (RowEffected <= 0)
+                    {
+                        throw new Exception("Course NOT Found..");
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Fee is shoud be Positive Number.");
+            }
+
+        }
 
     }
 }
