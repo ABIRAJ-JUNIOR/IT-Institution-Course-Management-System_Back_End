@@ -1,3 +1,4 @@
+using IT_Institution_Course_Management_System.Database;
 using IT_Institution_Course_Management_System.IRepository;
 using IT_Institution_Course_Management_System.Repository;
 
@@ -16,13 +17,18 @@ namespace IT_Institution_Course_Management_System
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             var connectionString = builder.Configuration.GetConnectionString("DBConnection");
 
             builder.Services.AddSingleton<IStudentRepository>(provider => new StudentRepository(connectionString));
+            builder.Services.AddSingleton<IFullPaymentRepository>(provider => new FullPaymentRepository(connectionString));
+            builder.Services.AddSingleton<IInstallmentRepository>(provider => new InstallementRepository(connectionString));
 
 
-
-
+            //Initialize The Database
+            var Initialize = new DatabaseInitializer(connectionString);
+            Initialize.Initialize();
+            
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
