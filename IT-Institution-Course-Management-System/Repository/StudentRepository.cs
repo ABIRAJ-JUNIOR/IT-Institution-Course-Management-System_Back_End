@@ -48,56 +48,70 @@ namespace IT_Institution_Course_Management_System.Repository
 
         public StudentResponseDTO GetStudentByNic(string Nic)
         {
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Students WHERE Nic == @nic";
-                command.Parameters.AddWithValue("@nic", Nic);
-                using (var reader = command.ExecuteReader())
+                using (var connection = new SqliteConnection(_connectionString))
                 {
-                    if (reader.Read())
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT * FROM Students WHERE Nic == @nic";
+                    command.Parameters.AddWithValue("@nic", Nic);
+                    using (var reader = command.ExecuteReader())
                     {
-                        return new StudentResponseDTO()
+                        if (reader.Read())
                         {
-                            Nic = reader.GetString(0),
-                            FullName = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            Phone = reader.GetString(3),
-                            Password = reader.GetString(4),
-                            RegistrationFee = reader.GetInt32(5),
-                            CourseEnrollId = reader.IsDBNull(6) ? null : reader.GetString(6),
-                            ImagePath = reader.GetString(7) == "" ? "/profileimages/ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg" : reader.GetString(7),
-                        };
-                    }
-                    else
-                    {
-                        throw new Exception("Student Not Found!");
-                    }
+                            return new StudentResponseDTO()
+                            {
+                                Nic = reader.GetString(0),
+                                FullName = reader.GetString(1),
+                                Email = reader.GetString(2),
+                                Phone = reader.GetString(3),
+                                Password = reader.GetString(4),
+                                RegistrationFee = reader.GetInt32(5),
+                                CourseEnrollId = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                ImagePath = reader.GetString(7) == "" ? "/profileimages/ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg" : reader.GetString(7),
+                            };
+                        }
+                        else
+                        {
+                            throw new Exception("Student Not Found!");
+                        }
+                    };
                 };
-            };
-            return null;
+                return null;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
 
         public Student AddStudent(Student student)
         {
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Students (Nic , FullName , Email , Phone , Password , RegistrationFee , ImagePath ) VALUES (@nic,@name,@email,@phone,@password,@registerFee,@imagePath);";
-                command.Parameters.AddWithValue("@nic", student.Nic);
-                command.Parameters.AddWithValue("@name", student.FullName);
-                command.Parameters.AddWithValue("@email", student.Email);
-                command.Parameters.AddWithValue("@phone", student.Phone);
-                command.Parameters.AddWithValue("@password", student.Password);
-                command.Parameters.AddWithValue("@registerFee", student.RegistrationFee);
-                command.Parameters.AddWithValue("@imagePath", student.ImagePath == null ? "" : student.ImagePath);
-                command.ExecuteNonQuery();
-            }
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO Students (Nic , FullName , Email , Phone , Password , RegistrationFee , ImagePath ) VALUES (@nic,@name,@email,@phone,@password,@registerFee,@imagePath);";
+                    command.Parameters.AddWithValue("@nic", student.Nic);
+                    command.Parameters.AddWithValue("@name", student.FullName);
+                    command.Parameters.AddWithValue("@email", student.Email);
+                    command.Parameters.AddWithValue("@phone", student.Phone);
+                    command.Parameters.AddWithValue("@password", student.Password);
+                    command.Parameters.AddWithValue("@registerFee", student.RegistrationFee);
+                    command.Parameters.AddWithValue("@imagePath", student.ImagePath == null ? "" : student.ImagePath);
+                    command.ExecuteNonQuery();
+                }
 
-            return student;
+                return student;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
 
         public StudentUpdateRequestDTO UpdateStudent(string Nic, StudentUpdateRequestDTO studentUpdate)

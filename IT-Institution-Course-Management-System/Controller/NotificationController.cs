@@ -19,16 +19,30 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllCourseNotifications()
         {
-            var notificationList = _notificationsRepository.GetAllNotifications();
-            return Ok(notificationList);
+            try
+            {
+                var notificationList = _notificationsRepository.GetAllNotifications();
+                return Ok(notificationList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Add-Notification")]
 
         public IActionResult AddCourseNotification(NotificationRequestDTO notification)
         {
-            _notificationsRepository.AddNotification(notification);
-            return Ok("Notification Added Successfully..");
+            try
+            {
+                _notificationsRepository.AddNotification(notification);
+                return Ok("Notification Added Successfully..");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("Delete-Notification/{Id}")]

@@ -19,8 +19,15 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllEnrollData()
         {
-            var courseEnrollData = _courseEnrollRepository.GetAllEnrollData();
-            return Ok(courseEnrollData);
+            try
+            {
+                var courseEnrollData = _courseEnrollRepository.GetAllEnrollData();
+                return Ok(courseEnrollData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 
@@ -28,24 +35,45 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult AddEnrollDetails(AddCourseEnrollDTO AddEnrollDto)
         {
-            var CourseEnrollDetail = _courseEnrollRepository.AddEnrollDetails(AddEnrollDto);
-            return Ok(CourseEnrollDetail);
+            try
+            {
+                var CourseEnrollDetail = _courseEnrollRepository.AddEnrollDetails(AddEnrollDto);
+                return Ok(CourseEnrollDetail);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("Add-payment-Id/{CourseEnrollId}/{InstallmentId}/{FullPaymentId}")]
 
         public IActionResult AddPaymentId(string CourseEnrollId, string InstallmentId, string FullPaymentId)
         {
-            _courseEnrollRepository.AddPaymentId(CourseEnrollId, InstallmentId, FullPaymentId);
-            return Ok("Payment ID Added Successfully.");
+            try
+            {
+                _courseEnrollRepository.AddPaymentId(CourseEnrollId, InstallmentId, FullPaymentId);
+                return Ok("Payment ID Added Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("Update-Status/{CourseEnrollId}/{Status}")]
 
         public IActionResult UpdateStatus(string CourseEnrollId, string Status)
         {
-            _courseEnrollRepository.UpdateStatus(CourseEnrollId, Status); ;
-            return Ok("Status Update Successfully.");
+            try
+            {
+                _courseEnrollRepository.UpdateStatus(CourseEnrollId, Status); ;
+                return Ok("Status Update Successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

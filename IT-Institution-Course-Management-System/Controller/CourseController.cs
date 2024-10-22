@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,15 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllCourses()
         {
-            var CourseList = _courseRepository.GetAllCourses();
-            return Ok(CourseList);
+            try
+            {
+                var CourseList = _courseRepository.GetAllCourses();
+                return Ok(CourseList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Get-Course-By-ID /{CourseId}")]
@@ -40,10 +48,17 @@ namespace IT_Institution_Course_Management_System.Controller
         }
 
         [HttpPost("Add-Course")]
-        public IActionResult AddCourse(CourseResponseDTO courseDto)
+        public IActionResult AddCourse(CourseRequestDTO courseDto)
         {
-            var studentData = _courseRepository.AddCourse(courseDto);
-            return Ok(studentData);
+            try
+            {
+                var studentData = _courseRepository.AddCourse(courseDto);
+                return Ok(studentData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("Update-Course/{CourseID}/{TotalFee}")]

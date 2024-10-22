@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,30 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllFullPayments()
         {
-            var fullPaymentsList = _fullPaymentRepository.GetAllFullPayments();
-            return Ok(fullPaymentsList);
+            try
+            {
+                var fullPaymentsList = _fullPaymentRepository.GetAllFullPayments();
+                return Ok(fullPaymentsList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Add-FullPayment")]
 
-        public IActionResult AddFullPayment(FullPaymentResponseDTO fullPaymentDto)
+        public IActionResult AddFullPayment(FullPaymentRequestDTO fullPaymentDto)
         {
-            var fullPaymentDetail = _fullPaymentRepository.AddFullPayment(fullPaymentDto);
-            return Ok(fullPaymentDetail);
+            try
+            {
+                var fullPaymentDetail = _fullPaymentRepository.AddFullPayment(fullPaymentDto);
+                return Ok(fullPaymentDetail);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

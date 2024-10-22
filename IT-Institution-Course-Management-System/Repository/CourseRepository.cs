@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.Data.Sqlite;
 
@@ -79,7 +80,7 @@ namespace IT_Institution_Course_Management_System.Repository
                 throw new Exception($"Error: {error.Message}");
             }
         }
-        public CourseResponseDTO AddCourse(CourseResponseDTO courseDto)
+        public CourseResponseDTO AddCourse(CourseRequestDTO courseDto)
         {
             try
             {
@@ -96,7 +97,16 @@ namespace IT_Institution_Course_Management_System.Repository
                     command.ExecuteNonQuery();
                 }
 
-                return courseDto;
+                var courseResponse = new CourseResponseDTO()
+                {
+                    Id= courseDto.Id,
+                    CourseName = courseDto.CourseName,
+                    Level = courseDto.Level,
+                    TotalFee = courseDto.TotalFee
+                };
+
+
+                return courseResponse;
             }
             catch (Exception error)
             {

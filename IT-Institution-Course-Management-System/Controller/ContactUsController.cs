@@ -20,8 +20,15 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult AddContactUsDetails(ContactUs contactUs)
         {
-            var ContactUsDetails = _contactUsRepository.AddContactUsDetails(contactUs);
-            return Ok(ContactUsDetails);
+            try
+            {
+                var ContactUsDetails = _contactUsRepository.AddContactUsDetails(contactUs);
+                return Ok(ContactUsDetails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

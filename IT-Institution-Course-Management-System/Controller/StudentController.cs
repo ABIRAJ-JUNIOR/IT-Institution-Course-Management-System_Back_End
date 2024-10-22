@@ -23,8 +23,15 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllStudents()
         {
-            var StudentsList = _studentRepository.GetAllStudents();
-            return Ok(StudentsList);
+            try
+            {
+                var StudentsList = _studentRepository.GetAllStudents();
+                return Ok(StudentsList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Get-Student-By-Nic /{Nic}")]
@@ -45,52 +52,59 @@ namespace IT_Institution_Course_Management_System.Controller
         [HttpPost("Add-student")]
         public async Task<IActionResult> AddStudent(AddStudentRequestDTO addStudent)
         {
-            var StudentObj = new Student()
+            try
             {
-                Nic = addStudent.Nic,
-                FullName = addStudent.FullName,
-                Email = addStudent.Email,
-                Phone = addStudent.Phone,
-                Password = addStudent.Password,
-                RegistrationFee = addStudent.RegistrationFee,
-                CourseEnrollId = null
-            };
-
-            if (addStudent.ImageFile != null && addStudent.ImageFile.Length > 0)
-            {
-
-                if (string.IsNullOrEmpty(_webHostEnvironment.WebRootPath))
+                var StudentObj = new Student()
                 {
-                    throw new ArgumentNullException(nameof(_webHostEnvironment.WebRootPath), "WebRootPath is not set. Make sure the environment is configured properly.");
+                    Nic = addStudent.Nic,
+                    FullName = addStudent.FullName,
+                    Email = addStudent.Email,
+                    Phone = addStudent.Phone,
+                    Password = addStudent.Password,
+                    RegistrationFee = addStudent.RegistrationFee,
+                    CourseEnrollId = null
+                };
+
+                if (addStudent.ImageFile != null && addStudent.ImageFile.Length > 0)
+                {
+
+                    if (string.IsNullOrEmpty(_webHostEnvironment.WebRootPath))
+                    {
+                        throw new ArgumentNullException(nameof(_webHostEnvironment.WebRootPath), "WebRootPath is not set. Make sure the environment is configured properly.");
+                    }
+
+                    var profileimagesPath = Path.Combine(_webHostEnvironment.WebRootPath, "profileimages");
+
+
+                    if (!Directory.Exists(profileimagesPath))
+                    {
+                        Directory.CreateDirectory(profileimagesPath);
+                    }
+
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(addStudent.ImageFile.FileName);
+                    var imagePath = Path.Combine(profileimagesPath, fileName);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await addStudent.ImageFile.CopyToAsync(stream);
+                    }
+
+
+                    StudentObj.ImagePath = "/profileimages/" + fileName;
+                }
+                else
+                {
+                    StudentObj.ImagePath = null;
                 }
 
-                var profileimagesPath = Path.Combine(_webHostEnvironment.WebRootPath, "profileimages");
 
-
-                if (!Directory.Exists(profileimagesPath))
-                {
-                    Directory.CreateDirectory(profileimagesPath);
-                }
-
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(addStudent.ImageFile.FileName);
-                var imagePath = Path.Combine(profileimagesPath, fileName);
-
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await addStudent.ImageFile.CopyToAsync(stream);
-                }
-
-
-                StudentObj.ImagePath = "/profileimages/" + fileName;
+                var studentData = _studentRepository.AddStudent(StudentObj);
+                return Ok(studentData);
             }
-            else
+            catch (Exception ex)
             {
-                StudentObj.ImagePath = null;
+                return BadRequest(ex.Message);
             }
-
-
-            var studentData = _studentRepository.AddStudent(StudentObj);
-            return Ok(studentData);
         }
 
         [HttpPut("Update-Student/{Nic}")]

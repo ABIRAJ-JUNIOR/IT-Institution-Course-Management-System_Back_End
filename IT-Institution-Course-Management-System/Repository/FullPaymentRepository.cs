@@ -1,4 +1,5 @@
 ﻿using IT_Institution_Course_Management_System.IRepository;
+using IT_Institution_Course_Management_System.Models.RequestModels;
 using IT_Institution_Course_Management_System.Models.ResponseModels;
 using Microsoft.Data.Sqlite;
 
@@ -45,7 +46,7 @@ namespace IT_Institution_Course_Management_System.Repository
             }
         }
 
-        public FullPaymentResponseDTO AddFullPayment(FullPaymentResponseDTO fullPaymentDto)
+        public FullPaymentResponseDTO AddFullPayment(FullPaymentRequestDTO fullPaymentDto)
         {
             try
             {
@@ -62,7 +63,15 @@ namespace IT_Institution_Course_Management_System.Repository
                     command.ExecuteNonQuery();
                 }
 
-                return fullPaymentDto;
+                var fullPaymentResponse = new FullPaymentResponseDTO()
+                {
+                    Id=fullPaymentDto.Id,
+                    Nic = fullPaymentDto.Nic,
+                    FullPayment = fullPaymentDto.FullPayment,
+                    PaymentDate = fullPaymentDto.PaymentDate,
+                };
+
+                return fullPaymentResponse;
             }
             catch (Exception error)
             {

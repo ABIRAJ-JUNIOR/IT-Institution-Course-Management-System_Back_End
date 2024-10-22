@@ -20,16 +20,30 @@ namespace IT_Institution_Course_Management_System.Controller
 
         public IActionResult GetAllInstallments()
         {
-            var installmentsList = _installmentRepository.GetAllInstallments();
-            return Ok(installmentsList);
+            try
+            {
+                var installmentsList = _installmentRepository.GetAllInstallments();
+                return Ok(installmentsList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Add-installment")]
 
         public IActionResult AddInstallment(InstallmentDetail installmentDetail)
         {
-            var installment = _installmentRepository.AddInstallment(installmentDetail);
-            return Ok(installment);
+            try
+            {
+                var installment = _installmentRepository.AddInstallment(installmentDetail);
+                return Ok(installment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("Update-Installment/{InstallmentId}/{PaidAmount}")]

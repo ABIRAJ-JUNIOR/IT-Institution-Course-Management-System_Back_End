@@ -16,110 +16,138 @@ namespace IT_Institution_Course_Management_System.Repository
 
         public ICollection<InstallmentResponseDTO> GetAllInstallments()
         {
-            var InstallmentsList = new List<InstallmentResponseDTO>();
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Installments";
-                using (var reader = command.ExecuteReader())
+                var InstallmentsList = new List<InstallmentResponseDTO>();
+                using (var connection = new SqliteConnection(_connectionString))
                 {
-                    while (reader.Read())
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT * FROM Installments";
+                    using (var reader = command.ExecuteReader())
                     {
-                        InstallmentsList.Add(new InstallmentResponseDTO()
+                        while (reader.Read())
                         {
-                            Id = reader.GetString(0),
-                            Nic = reader.GetString(1),
-                            TotalAmount = reader.GetDecimal(2),
-                            InstallmentAmount = reader.GetDecimal(3),
-                            Installments = reader.GetString(4),
-                            PaymentDue = reader.GetDecimal(5),
-                            PaymentPaid = reader.GetDecimal(6),
-                            PaymentDate = reader.GetDateTime(7)
-                        });
+                            InstallmentsList.Add(new InstallmentResponseDTO()
+                            {
+                                Id = reader.GetString(0),
+                                Nic = reader.GetString(1),
+                                TotalAmount = reader.GetDecimal(2),
+                                InstallmentAmount = reader.GetDecimal(3),
+                                Installments = reader.GetString(4),
+                                PaymentDue = reader.GetDecimal(5),
+                                PaymentPaid = reader.GetDecimal(6),
+                                PaymentDate = reader.GetDateTime(7)
+                            });
+                        }
                     }
                 }
+                return InstallmentsList;
             }
-            return InstallmentsList;
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
 
         public InstallmentResponseDTO GetInstallmentById(string Id)
         {
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Installments WHERE Id == @id";
-                command.Parameters.AddWithValue("@id", Id);
-                using (var reader = command.ExecuteReader())
+                using (var connection = new SqliteConnection(_connectionString))
                 {
-                    if (reader.Read())
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "SELECT * FROM Installments WHERE Id == @id";
+                    command.Parameters.AddWithValue("@id", Id);
+                    using (var reader = command.ExecuteReader())
                     {
-                        return new InstallmentResponseDTO()
+                        if (reader.Read())
                         {
-                            Id = reader.GetString(0),
-                            Nic = reader.GetString(1),
-                            TotalAmount = reader.GetDecimal(2),
-                            InstallmentAmount = reader.GetDecimal(3),
-                            Installments = reader.GetString(4),
-                            PaymentDue = reader.GetDecimal(5),
-                            PaymentPaid = reader.GetDecimal(6),
-                            PaymentDate = reader.GetDateTime(7)
-                        };
-                    }
-                    else
-                    {
-                        throw new Exception("Installment Detail Not Found!");
-                    }
+                            return new InstallmentResponseDTO()
+                            {
+                                Id = reader.GetString(0),
+                                Nic = reader.GetString(1),
+                                TotalAmount = reader.GetDecimal(2),
+                                InstallmentAmount = reader.GetDecimal(3),
+                                Installments = reader.GetString(4),
+                                PaymentDue = reader.GetDecimal(5),
+                                PaymentPaid = reader.GetDecimal(6),
+                                PaymentDate = reader.GetDateTime(7)
+                            };
+                        }
+                        else
+                        {
+                            throw new Exception("Installment Detail Not Found!");
+                        }
+                    };
                 };
-            };
-            return null;
+                return null;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
 
         public InstallmentDetail AddInstallment(InstallmentDetail installmentDetail)
         {
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Installments (Id,Nic,TotalAmount,InstallmentAmount,Installments,PaymentDue,PaymentPaid,PaymentDate) VALUES (@Id,@nic,@totalAmount,@InstallmentAmount,@installments,@paymentDue,@paymentPaid,@paymentDate);";
-                command.Parameters.AddWithValue("@Id", installmentDetail.Id);
-                command.Parameters.AddWithValue("@nic", installmentDetail.Nic);
-                command.Parameters.AddWithValue("@totalAmount", installmentDetail.TotalAmount);
-                command.Parameters.AddWithValue("@InstallmentAmount", installmentDetail.InstallmentAmount);
-                command.Parameters.AddWithValue("@installments", installmentDetail.Installments);
-                command.Parameters.AddWithValue("@paymentDue", installmentDetail.PaymentDue);
-                command.Parameters.AddWithValue("@paymentPaid", installmentDetail.PaymentPaid);
-                command.Parameters.AddWithValue("@paymentDate", installmentDetail.PaymentDate);
-                command.ExecuteNonQuery();
-            }
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO Installments (Id,Nic,TotalAmount,InstallmentAmount,Installments,PaymentDue,PaymentPaid,PaymentDate) VALUES (@Id,@nic,@totalAmount,@InstallmentAmount,@installments,@paymentDue,@paymentPaid,@paymentDate);";
+                    command.Parameters.AddWithValue("@Id", installmentDetail.Id);
+                    command.Parameters.AddWithValue("@nic", installmentDetail.Nic);
+                    command.Parameters.AddWithValue("@totalAmount", installmentDetail.TotalAmount);
+                    command.Parameters.AddWithValue("@InstallmentAmount", installmentDetail.InstallmentAmount);
+                    command.Parameters.AddWithValue("@installments", installmentDetail.Installments);
+                    command.Parameters.AddWithValue("@paymentDue", installmentDetail.PaymentDue);
+                    command.Parameters.AddWithValue("@paymentPaid", installmentDetail.PaymentPaid);
+                    command.Parameters.AddWithValue("@paymentDate", installmentDetail.PaymentDate);
+                    command.ExecuteNonQuery();
+                }
 
-            return installmentDetail;
+                return installmentDetail;
+            }
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
 
         public InstallmentResponseDTO UpdateInstallment(string InstallmentId, decimal PaidAmount)
         {
-            var installmentDetail = GetInstallmentById(InstallmentId);
-            decimal PaymentPaid = installmentDetail.PaymentPaid + PaidAmount;
-            decimal PaymentDue = installmentDetail.PaymentDue - PaidAmount;
-
-            DateTime today = DateTime.Now;
-            using (var connection = new SqliteConnection(_connectionString))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "UPDATE Installments SET PaymentDue = @paymentDue , PaymentPaid = @paymentPaid , PaymentDate = @paymentDate WHERE Id == @id";
-                command.Parameters.AddWithValue("@paymentDue", PaymentDue);
-                command.Parameters.AddWithValue("@paymentPaid", PaymentPaid);
-                command.Parameters.AddWithValue("@paymentDate", today);
-                command.Parameters.AddWithValue("@id", InstallmentId);
-                command.ExecuteNonQuery();
+                var installmentDetail = GetInstallmentById(InstallmentId);
+                decimal PaymentPaid = installmentDetail.PaymentPaid + PaidAmount;
+                decimal PaymentDue = installmentDetail.PaymentDue - PaidAmount;
+
+                DateTime today = DateTime.Now;
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Installments SET PaymentDue = @paymentDue , PaymentPaid = @paymentPaid , PaymentDate = @paymentDate WHERE Id == @id";
+                    command.Parameters.AddWithValue("@paymentDue", PaymentDue);
+                    command.Parameters.AddWithValue("@paymentPaid", PaymentPaid);
+                    command.Parameters.AddWithValue("@paymentDate", today);
+                    command.Parameters.AddWithValue("@id", InstallmentId);
+                    command.ExecuteNonQuery();
+                }
+
+                var UpdatedInstallmentDetail = GetInstallmentById(InstallmentId);
+
+                return UpdatedInstallmentDetail;
             }
-
-            var UpdatedInstallmentDetail = GetInstallmentById(InstallmentId);
-
-            return UpdatedInstallmentDetail;
+            catch (Exception error)
+            {
+                throw new Exception($"Error: {error.Message}");
+            }
         }
     }
 }
