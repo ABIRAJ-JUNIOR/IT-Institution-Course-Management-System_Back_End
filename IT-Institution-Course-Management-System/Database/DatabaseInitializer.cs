@@ -82,7 +82,9 @@ namespace IT_Institution_Course_Management_System.Database
                         Type NVARCHAR(50) NOT NULL,
                         SourceId NVARCHAR(50) NOT NULL,
                         Date Date NOT NULL,
-                        IsDeleted BOOLEAN
+                        IsDeleted BOOLEAN,
+
+                        FOREIGN KEY (Nic) REFERENCES Students(Nic) ON DELETE CASCADE
 
                     );
 
